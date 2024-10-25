@@ -1,3 +1,5 @@
+// I made this comment the first time I expected Vercel to successfully deploy this.
+
 import { supabase } from "../supabase";
 
 export async function getArticles({
