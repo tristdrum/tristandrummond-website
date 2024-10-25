@@ -20,7 +20,7 @@ export interface LifeDomain {
   id: string;
   label: string;
   color: string;
-  link: string;
+  slug: string;
   created_at: string;
 }
 

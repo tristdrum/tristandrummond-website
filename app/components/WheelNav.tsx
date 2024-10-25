@@ -4,7 +4,7 @@ import Link from "next/link";
 interface WheelSegment {
   label: string;
   color: string;
-  link: string;
+  slug: string; // Changed from link
 }
 
 interface WheelNavProps {
@@ -91,7 +91,8 @@ const WheelNav = ({ segments }: WheelNavProps) => {
         {segments.map((segment, index) => {
           const textPos = calculateTextPosition(index, segments.length);
           return (
-            <Link key={index} href={segment.link}>
+            <Link key={index} href={`/${segment.slug}`}>
+              {" "}
               <g className="segment-group">
                 <path
                   d={calculateSegmentPath(index, segments.length)}

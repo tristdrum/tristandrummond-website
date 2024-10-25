@@ -16,15 +16,25 @@ export const ThreeSegments: Story = {
   args: {
     segments: [
       {
+        id: "1",
         label: "Life & Reflections",
         color: "#4444FF",
-        link: "/life-reflections",
+        slug: "life-reflections",
+        created_at: new Date().toISOString(),
       },
-      { label: "Tech & AI", color: "#FF4444", link: "/tech-ai" },
       {
+        id: "2",
+        label: "Tech & AI",
+        color: "#FF4444",
+        slug: "tech-ai",
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: "3",
         label: "Faith & Community",
         color: "#44FF44",
-        link: "/faith-community",
+        slug: "faith-community",
+        created_at: new Date().toISOString(),
       },
     ],
   },
@@ -53,19 +63,25 @@ export const LongText: Story = {
   args: {
     segments: [
       {
+        id: "1",
         label: "Very Long Section Title That Might Break",
         color: "#4444FF",
-        link: "/long",
+        slug: "long",
+        created_at: new Date().toISOString(),
       },
       {
+        id: "2",
         label: "Another Really Long Title Here",
         color: "#FF4444",
-        link: "/another",
+        slug: "another",
+        created_at: new Date().toISOString(),
       },
       {
+        id: "3",
         label: "Third Extremely Long Section Name",
         color: "#44FF44",
-        link: "/third",
+        slug: "third",
+        created_at: new Date().toISOString(),
       },
     ],
   },

@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
-import type { Topic } from "@/lib/types";
+import type { Topic, LifeDomain } from "@/lib/types";
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -10,6 +9,9 @@ interface FilterModalProps {
   topics: Topic[];
   selectedTopicIds: string[];
   onTopicSelect: (topicId: string) => void;
+  lifeDomains?: LifeDomain[];
+  selectedLifeDomainId?: string | null;
+  onLifeDomainSelect?: (lifeDomainId: string) => void;
 }
 
 const FilterModal = ({
@@ -18,6 +20,9 @@ const FilterModal = ({
   topics,
   selectedTopicIds,
   onTopicSelect,
+  lifeDomains = [],
+  selectedLifeDomainId,
+  onLifeDomainSelect,
 }: FilterModalProps) => {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -26,9 +31,32 @@ const FilterModal = ({
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-sm rounded bg-gray-800 p-6">
           <Dialog.Title className="text-lg font-medium mb-4">
-            Filter by Topics
+            Filter Content
           </Dialog.Title>
 
+          {lifeDomains.length > 0 && onLifeDomainSelect && (
+            <>
+              <h3 className="font-medium mb-2">Life Domains</h3>
+              <div className="space-y-2 mb-4">
+                {lifeDomains.map((domain) => (
+                  <label
+                    key={domain.id}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      checked={selectedLifeDomainId === domain.id}
+                      onChange={() => onLifeDomainSelect(domain.id)}
+                      className="rounded border-gray-300"
+                    />
+                    <span>{domain.label}</span>
+                  </label>
+                ))}
+              </div>
+            </>
+          )}
+
+          <h3 className="font-medium mb-2">Topics</h3>
           <div className="space-y-2">
             {topics.map((topic) => (
               <label
