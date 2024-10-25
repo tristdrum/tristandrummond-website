@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
 
 interface WheelSegment {
@@ -12,6 +12,20 @@ interface WheelNavProps {
 }
 
 const WheelNav = ({ segments }: WheelNavProps) => {
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  // Add resize handler
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const calculateSegmentPath = useCallback((index: number, total: number) => {
     if (total === 0) return "";
 
@@ -41,22 +55,27 @@ const WheelNav = ({ segments }: WheelNavProps) => {
     `;
   }, []);
 
-  const calculateTextPosition = useCallback((index: number, total: number) => {
-    const anglePerSegment = (2 * Math.PI) / total;
-    const midAngle = (index + 0.5) * anglePerSegment - Math.PI / 2;
-    const radius = 120; // Distance of text from center
+  const calculateTextPosition = useCallback(
+    (index: number, total: number) => {
+      const anglePerSegment = (2 * Math.PI) / total;
+      const midAngle = (index + 0.5) * anglePerSegment - Math.PI / 2;
 
-    const x = 200 + radius * Math.cos(midAngle);
-    const y = 200 + radius * Math.sin(midAngle);
+      // Use windowWidth state instead of direct window.innerWidth
+      const baseRadius = Math.min(windowWidth, 400) / 4;
+      const radius = Math.min(baseRadius, 100);
 
-    // Calculate rotation to keep text readable
-    let rotation = (midAngle * 180) / Math.PI;
-    if (rotation > 90 && rotation < 270) {
-      rotation += 180; // Flip text if it would be upside down
-    }
+      const x = 200 + radius * Math.cos(midAngle);
+      const y = 200 + radius * Math.sin(midAngle);
 
-    return { x, y, rotation };
-  }, []);
+      let rotation = (midAngle * 180) / Math.PI;
+      if (rotation > 90 && rotation < 270) {
+        rotation += 180;
+      }
+
+      return { x, y, rotation };
+    },
+    [windowWidth]
+  ); // Add windowWidth as dependency
 
   if (!segments.length) {
     return <div className="text-center">No segments available</div>;
@@ -64,7 +83,11 @@ const WheelNav = ({ segments }: WheelNavProps) => {
 
   return (
     <div className="wheel-container">
-      <svg viewBox="0 0 400 400" className="wheel">
+      <svg
+        viewBox="0 0 400 400"
+        className="wheel"
+        preserveAspectRatio="xMidYMid meet"
+      >
         {segments.map((segment, index) => {
           const textPos = calculateTextPosition(index, segments.length);
           return (
@@ -84,7 +107,16 @@ const WheelNav = ({ segments }: WheelNavProps) => {
                   fill="white"
                   className="segment-text"
                 >
-                  {segment.label}
+                  <tspan
+                    dy="0"
+                    className="text-balance"
+                    style={{
+                      fontSize: window.innerWidth <= 480 ? "14px" : "16px",
+                      maxWidth: `${Math.min(window.innerWidth / 4, 100)}px`,
+                    }}
+                  >
+                    {segment.label}
+                  </tspan>
                 </text>
               </g>
             </Link>
