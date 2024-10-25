@@ -19,7 +19,7 @@ const HomePage = () => {
         } else {
           setLifeDomains(data || []);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching life domains:", err);
         return <div>Error loading life domains</div>;
       } finally {
