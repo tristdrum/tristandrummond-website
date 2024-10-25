@@ -14,8 +14,60 @@
   }
 }
 
+/* Global Styles */
 body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom Minimalist Styling */
+.container {
+  @apply max-w-3xl mx-auto p-5;
+}
+
+/* Interactive Wheel Navigation */
+.wheel-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto;
+  aspect-ratio: 1;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+}
+
+.segment-group {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.segment-group:hover {
+  transform: scale(1.02);
+}
+
+.segment-path {
+  transition: opacity 0.3s ease;
+}
+
+.segment-group:hover .segment-path {
+  opacity: 0.8;
+}
+
+.segment-text {
+  font-size: 16px;
+  font-weight: bold;
+  pointer-events: none;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+  .segment-text {
+    font-size: 14px;
+  }
 }
