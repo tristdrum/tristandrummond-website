@@ -2,7 +2,7 @@ import { use } from "react";
 import { supabase } from "../../../lib/supabase";
 import Image from "next/image";
 import Link from "next/link";
-import type { Article, Topic } from "@/lib/types";
+import type { Article } from "@/lib/types";
 
 async function getArticle(params: Promise<{ slug: string }>) {
   const { slug } = await params;
@@ -80,12 +80,12 @@ export default function ArticlePage({
         <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
 
         <div className="flex gap-2 mb-8">
-          {article.topics.map((topic: Topic) => (
+          {article.topics.map((topicName: string, index) => (
             <span
-              key={topic.name}
+              key={`${article.id}-topic-${index}`}
               className="text-sm bg-gray-800 px-3 py-1 rounded-full"
             >
-              {topic.name}
+              {String(topicName)}
             </span>
           ))}
         </div>

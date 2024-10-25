@@ -7,7 +7,7 @@ export interface Article {
   published_date: string;
   slug: string;
   created_at: string;
-  topics: Topic[];
+  topics: string[]; // Change this from Topic[] to string[]
   articles_topics: {
     topics: {
       id: string;
