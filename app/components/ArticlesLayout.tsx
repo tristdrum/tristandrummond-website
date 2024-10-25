@@ -53,7 +53,10 @@ export default function ArticlesLayout({
         } else {
           const transformedArticles = data.map((article) => ({
             ...article,
-            topics: article.articles_topics.map((at) => at.topics.name),
+            image_url: article.image_url ?? undefined, // Changed from || to ??
+            topics: article.articles_topics.map(
+              (at: { topics: { name: string } }) => at.topics.name
+            ),
           }));
           setArticles(transformedArticles);
           setFilteredArticles(transformedArticles);
@@ -73,21 +76,19 @@ export default function ArticlesLayout({
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const query = supabase.from("topics").select(`
+        let baseQuery = supabase.from("topics").select(`
           *,
           life_domain_topics!inner (
             life_domain_id
           )
         `);
 
-        if (selectedLifeDomainId) {
-          query = query.eq(
-            "life_domain_topics.life_domain_id",
-            selectedLifeDomainId
-          );
-        }
-
-        const { data, error } = await query.order("name");
+        // Chain the conditions instead of reassigning
+        const { data, error } = await (selectedLifeDomainId
+          ? baseQuery
+              .eq("life_domain_topics.life_domain_id", selectedLifeDomainId)
+              .order("name")
+          : baseQuery.order("name"));
 
         if (error) {
           throw error;
@@ -163,7 +164,7 @@ export default function ArticlesLayout({
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredArticles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
+            <ArticleCard key={article.id} article={article as Article} />
           ))}
         </div>
       )}

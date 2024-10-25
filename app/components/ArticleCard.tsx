@@ -1,14 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-
-interface Article {
-  title: string;
-  content: string;
-  image_url?: string;
-  topics: string[];
-  slug: string;
-}
+import type { Article } from "@/lib/types";
 
 interface ArticleCardProps {
   article: Article;
@@ -31,8 +24,11 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
         <div className="flex gap-2 mb-2">
           {article.topics.map((topic) => (
-            <span key={topic} className="text-sm bg-gray-700 px-2 py-1 rounded">
-              {topic}
+            <span
+              key={topic.id}
+              className="text-sm bg-gray-700 px-2 py-1 rounded"
+            >
+              {String(topic)}
             </span>
           ))}
         </div>

@@ -46,7 +46,9 @@ export async function getArticles({
   // Transform the data to match the expected format
   const articles = data.map((article) => ({
     ...article,
-    topics: article.articles_topics.map((at) => at.topics.name),
+    topics: article.articles_topics.map(
+      (at: { topics: { name: string } }) => at.topics.name
+    ),
   }));
 
   return {

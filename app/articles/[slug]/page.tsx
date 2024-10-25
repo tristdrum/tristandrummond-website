@@ -2,7 +2,7 @@ import { use } from "react";
 import { supabase } from "../../../lib/supabase";
 import Image from "next/image";
 import Link from "next/link";
-import type { Article } from "@/lib/types";
+import type { Article, Topic } from "@/lib/types";
 
 async function getArticle(params: Promise<{ slug: string }>) {
   const { slug } = await params;
@@ -29,7 +29,9 @@ async function getArticle(params: Promise<{ slug: string }>) {
 
   return {
     ...data,
-    topics: data.articles_topics.map((at) => at.topics.name),
+    topics: data.articles_topics.map(
+      (at: { topics: { name: string } }) => at.topics.name
+    ),
   } as Article;
 }
 
@@ -78,12 +80,12 @@ export default function ArticlePage({
         <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
 
         <div className="flex gap-2 mb-8">
-          {article.topics.map((topic) => (
+          {article.topics.map((topic: Topic) => (
             <span
-              key={topic}
+              key={topic.name}
               className="text-sm bg-gray-800 px-3 py-1 rounded-full"
             >
-              {topic}
+              {topic.name}
             </span>
           ))}
         </div>

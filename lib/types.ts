@@ -3,10 +3,20 @@ export interface Article {
   title: string;
   description: string;
   content: string;
-  image_url: string | null;
+  image_url: string | null | undefined;
   published_date: string;
   slug: string;
   created_at: string;
+  topics: Topic[];
+  articles_topics: {
+    topics: {
+      id: string;
+      name: string;
+      life_domain_topics: {
+        life_domain_id: string;
+      }[];
+    };
+  }[];
 }
 
 export interface Topic {
@@ -16,13 +26,12 @@ export interface Topic {
   created_at: string;
 }
 
-export interface LifeDomain {
-  id: string;
+export type LifeDomain = {
+  id: string | number;
   label: string;
-  color: string;
   slug: string;
-  created_at: string;
-}
+  colour?: string;
+};
 
 export interface ArticleTopic {
   article_id: string;

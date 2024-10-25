@@ -46,7 +46,7 @@ const FilterModal = ({
                     <input
                       type="radio"
                       checked={selectedLifeDomainId === domain.id}
-                      onChange={() => onLifeDomainSelect(domain.id)}
+                      onChange={() => onLifeDomainSelect(domain.id.toString())}
                       className="rounded border-gray-300"
                     />
                     <span>{domain.label}</span>

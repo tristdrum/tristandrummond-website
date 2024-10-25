@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import ArticlesLayout from "../components/ArticlesLayout";
+import ArticlesLayout from "@/app/components/ArticlesLayout";
 import type { LifeDomain } from "@/lib/types";
 
 export default function LifeDomainPage() {
@@ -37,7 +37,7 @@ export default function LifeDomainPage() {
 
   return (
     <ArticlesLayout
-      lifeDomainId={lifeDomain.id}
+      lifeDomainId={lifeDomain.id.toString()}
       title={lifeDomain.label}
       showLifeDomainFilter={false}
     />

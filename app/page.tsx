@@ -8,7 +8,7 @@ import type { LifeDomain } from "@/lib/types";
 const HomePage = () => {
   const [lifeDomains, setLifeDomains] = useState<LifeDomain[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLifeDomains = async () => {

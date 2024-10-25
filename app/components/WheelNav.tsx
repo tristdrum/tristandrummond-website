@@ -1,12 +1,8 @@
 import { useCallback, useState, useEffect } from "react";
 import Link from "next/link";
+import type { LifeDomain } from "@/lib/types";
 
-interface WheelSegment {
-  label: string;
-  color: string;
-  slug: string; // Changed from link
-}
-
+type WheelSegment = LifeDomain;
 interface WheelNavProps {
   segments: WheelSegment[];
 }
@@ -96,7 +92,7 @@ const WheelNav = ({ segments }: WheelNavProps) => {
               <g className="segment-group">
                 <path
                   d={calculateSegmentPath(index, segments.length)}
-                  fill={segment.color}
+                  fill={segment.colour}
                   className="segment-path"
                 />
                 <text
