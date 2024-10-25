@@ -95,7 +95,7 @@ export default function ArticlesLayout({
         }
 
         setTopics(data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching topics:", err);
         setError("Failed to fetch topics");
       }
