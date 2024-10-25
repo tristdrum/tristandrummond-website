@@ -1,5 +1,5 @@
 import { supabase } from "../supabase";
-import type { Article } from "../types";
+import type { Article, Topic } from "../types";
 
 export async function getArticles({
   topics = [],
@@ -14,10 +14,21 @@ export async function getArticles({
   orderBy?: "published_date" | "title";
   order?: "asc" | "desc";
 }) {
-  let query = supabase.from("articles").select("*", { count: "exact" });
+  let query = supabase.from("articles").select(
+    `
+      *,
+      articles_topics!inner (
+        topics (
+          id,
+          name
+        )
+      )
+    `,
+    { count: "exact" }
+  );
 
   if (topics.length > 0) {
-    query = query.contains("topics", topics);
+    query = query.in("articles_topics.topics.id", topics);
   }
 
   query = query.order(orderBy, { ascending: order === "asc" });
@@ -32,8 +43,14 @@ export async function getArticles({
     throw new Error(`Error fetching articles: ${error.message}`);
   }
 
+  // Transform the data to match the expected format
+  const articles = data.map((article) => ({
+    ...article,
+    topics: article.articles_topics.map((at) => at.topics.name),
+  }));
+
   return {
-    articles: data as Article[],
+    articles,
     total: count || 0,
     page,
     limit,
@@ -41,14 +58,14 @@ export async function getArticles({
 }
 
 export async function getTopics() {
-  const { data, error } = await supabase.from("articles").select("topics");
+  const { data, error } = await supabase
+    .from("topics")
+    .select("*")
+    .order("name");
 
   if (error) {
     throw new Error(`Error fetching topics: ${error.message}`);
   }
 
-  const allTopics = data.flatMap((article) => article.topics);
-  const uniqueTopics = [...new Set(allTopics)].sort();
-
-  return uniqueTopics;
+  return data;
 }

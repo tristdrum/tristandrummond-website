@@ -4,35 +4,30 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import Link from "next/link";
 import WheelNav from "./components/WheelNav";
-
-interface WheelSegment {
-  label: string;
-  color: string;
-  link: string;
-}
+import type { LifeDomain } from "@/lib/types";
 
 const HomePage = () => {
-  const [wheelData, setWheelData] = useState<WheelSegment[]>([]);
+  const [lifeDomains, setLifeDomains] = useState<LifeDomain[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchWheelData = async () => {
+    const fetchLifeDomains = async () => {
       try {
-        const { data, error } = await supabase.from("wheel").select("*");
+        const { data, error } = await supabase.from("life_domains").select("*");
         if (error) {
           setError(error.message);
         } else {
-          setWheelData(data || []);
+          setLifeDomains(data || []);
         }
       } catch (err) {
-        setError("Failed to fetch wheel data");
+        setError("Failed to fetch life domains");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchWheelData();
+    fetchLifeDomains();
   }, []);
 
   return (
@@ -40,7 +35,7 @@ const HomePage = () => {
       <h1 className="text-3xl font-bold mb-6">
         Welcome to Tristan Drummond's Website
       </h1>
-      <WheelNav segments={wheelData} />
+      <WheelNav segments={lifeDomains} />
     </div>
   );
 };

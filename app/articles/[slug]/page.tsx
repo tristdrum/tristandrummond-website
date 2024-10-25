@@ -9,7 +9,17 @@ async function getArticle(params: Promise<{ slug: string }>) {
 
   const { data, error } = await supabase
     .from("articles")
-    .select("*")
+    .select(
+      `
+      *,
+      articles_topics!inner (
+        topics (
+          id,
+          name
+        )
+      )
+    `
+    )
     .eq("slug", slug)
     .single();
 
@@ -17,7 +27,10 @@ async function getArticle(params: Promise<{ slug: string }>) {
     throw new Error(error.message);
   }
 
-  return data as Article;
+  return {
+    ...data,
+    topics: data.articles_topics.map((at) => at.topics.name),
+  } as Article;
 }
 
 export default function ArticlePage({
