@@ -32,10 +32,18 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <h1 className="text-3xl font-bold mb-6">
-        Welcome to Tristan Drummond's Website
-      </h1>
-      <WheelNav segments={lifeDomains} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <>
+          <h1 className="text-3xl font-bold mb-6">
+            Welcome to Tristan Drummond's Website
+          </h1>
+          <WheelNav segments={lifeDomains} />
+        </>
+      )}
     </div>
   );
 };

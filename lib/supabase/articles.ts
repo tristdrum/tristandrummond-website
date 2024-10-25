@@ -1,5 +1,4 @@
 import { supabase } from "../supabase";
-import type { Article, Topic } from "../types";
 
 export async function getArticles({
   topics = [],

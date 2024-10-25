@@ -23,9 +23,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         )}
         <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
         <div className="flex gap-2 mb-2">
-          {article.topics.map((topic) => (
+          {article.topics.map((topic, index) => (
             <span
-              key={topic.id}
+              key={`${article.id}-topic-${index}`}
               className="text-sm bg-gray-700 px-2 py-1 rounded"
             >
               {String(topic)}
