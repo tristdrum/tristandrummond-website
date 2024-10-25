@@ -61,7 +61,7 @@ export default function ArticlesLayout({
           setArticles(transformedArticles);
           setFilteredArticles(transformedArticles);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching articles:", err);
         setError("Failed to fetch articles");
       } finally {
@@ -76,7 +76,7 @@ export default function ArticlesLayout({
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        let baseQuery = supabase.from("topics").select(`
+        const baseQuery = supabase.from("topics").select(`
           *,
           life_domain_topics!inner (
             life_domain_id
