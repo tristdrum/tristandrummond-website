@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import Link from "next/link";
 import WheelNav from "./components/WheelNav";
 import type { LifeDomain } from "@/lib/types";
 
@@ -20,8 +19,9 @@ const HomePage = () => {
         } else {
           setLifeDomains(data || []);
         }
-      } catch (err) {
-        setError("Failed to fetch life domains");
+      } catch (err: any) {
+        console.error("Error fetching life domains:", err);
+        return <div>Error loading life domains</div>;
       } finally {
         setIsLoading(false);
       }

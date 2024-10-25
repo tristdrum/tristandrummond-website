@@ -33,7 +33,7 @@ export default function ArticlesLayout({
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        let query = supabase.from("articles").select(`
+        const query = supabase.from("articles").select(`
           *,
           articles_topics (
             topics (
@@ -49,7 +49,7 @@ export default function ArticlesLayout({
         const { data, error } = await query;
 
         if (error) {
-          setError(error.message);
+          setError("Failed to fetch articles");
         } else {
           const transformedArticles = data.map((article) => ({
             ...article,
@@ -58,7 +58,8 @@ export default function ArticlesLayout({
           setArticles(transformedArticles);
           setFilteredArticles(transformedArticles);
         }
-      } catch (err) {
+      } catch (err: any) {
+        console.error("Error fetching articles:", err);
         setError("Failed to fetch articles");
       } finally {
         setIsLoading(false);
@@ -72,7 +73,7 @@ export default function ArticlesLayout({
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        let query = supabase.from("topics").select(`
+        const query = supabase.from("topics").select(`
           *,
           life_domain_topics!inner (
             life_domain_id
@@ -93,7 +94,8 @@ export default function ArticlesLayout({
         }
 
         setTopics(data);
-      } catch (err) {
+      } catch (err: any) {
+        console.error("Error fetching topics:", err);
         setError("Failed to fetch topics");
       }
     };
