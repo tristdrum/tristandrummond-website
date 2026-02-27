@@ -39,6 +39,6 @@ Branch: `feat/jan-process-demo`
 5. ✅ Produce QA report
    - Added `docs/jan-demo-qa.md`.
 
-6. 🟡 Push commit to PR branch and verify preview
-   - Pending: push these fixes to `feat/jan-process-demo`.
-   - Pending: confirm Vercel preview URL/check status after push.
+6. 🟡 Verify preview after push
+   - ✅ Pushed fixes to `feat/jan-process-demo`.
+   - ⏳ Vercel preview deployment triggered and currently pending final status.
