@@ -22,7 +22,7 @@ const HomePage = () => {
         }
       } catch (err: unknown) {
         console.error("Error fetching life domains:", err);
-        return <div>Error loading life domains</div>;
+        setError(err instanceof Error ? err.message : "Failed to fetch");
       } finally {
         setIsLoading(false);
       }
@@ -33,24 +33,23 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error: {error}</div>
-      ) : (
-        <>
-          <h1 className="text-3xl font-bold mb-6">
-            Welcome to Tristan Drummond's Website
-          </h1>
-          <Link
-            href="/jan-demo"
-            className="mb-5 inline-block rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
-          >
-            Open Jan Process Demo
-          </Link>
-          <WheelNav segments={lifeDomains} />
-        </>
+      <h1 className="mb-6 text-3xl font-bold">Welcome to Tristan Drummond's Website</h1>
+      <Link
+        href="/jan-demo"
+        className="mb-5 inline-block rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+      >
+        Open Jan Process Demo
+      </Link>
+
+      {isLoading && <div>Loading life domains...</div>}
+
+      {!isLoading && error && (
+        <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          Couldn&apos;t load life domains right now ({error}). The Jan demo route is still available.
+        </div>
       )}
+
+      {!isLoading && !error && <WheelNav segments={lifeDomains} />}
     </div>
   );
 };
