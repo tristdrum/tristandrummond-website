@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { ChangeEvent, useMemo, useState } from "react";
 
 type Role =
@@ -412,12 +411,6 @@ const JanDemoPage = () => {
               Fake auth, kanban drag/drop, document uploads, signatures, and staged flow controls.
             </p>
           </div>
-          <Link
-            className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
-            href="/"
-          >
-            Back to home
-          </Link>
         </div>
       </div>
 
