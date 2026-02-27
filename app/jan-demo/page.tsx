@@ -476,19 +476,22 @@ const JanDemoPage = () => {
       </section>
 
       <section className="mb-6">
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold text-slate-900">Kanban workflow</h2>
           <p className="text-xs text-slate-600">Tip: drag cards between columns to simulate handoffs.</p>
         </div>
+        <p className="mb-2 text-xs font-medium text-slate-500 sm:hidden">
+          Swipe left/right to view all stages →
+        </p>
 
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:gap-4">
           {STAGES.map((stage) => {
             const stageProcesses = processes.filter((process) => process.stageId === stage.id);
 
             return (
               <article
                 key={stage.id}
-                className="w-[320px] shrink-0 rounded-xl border border-slate-200 bg-slate-50"
+                className="w-[86vw] max-w-[320px] shrink-0 snap-start rounded-xl border border-slate-200 bg-slate-50"
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={(event) => {
                   event.preventDefault();
@@ -589,39 +592,43 @@ const JanDemoPage = () => {
                             </button>
                           </div>
 
-                          <div className="mt-3 space-y-2 rounded-md border border-slate-200 p-2">
-                            <p className="text-xs font-semibold text-slate-700">Documents</p>
-                            <input
-                              type="file"
-                              multiple
-                              onChange={(event) => onUploadDocuments(process.id, event)}
-                              className="w-full text-[11px]"
-                            />
-                            <ul className="space-y-1 text-[11px] text-slate-600">
-                              {process.documents.length === 0 ? (
-                                <li>No docs uploaded</li>
-                              ) : (
-                                process.documents.map((doc) => <li key={`${process.id}-${doc}`}>• {doc}</li>)
-                              )}
-                            </ul>
-                          </div>
+                          <details className="mt-3 rounded-md border border-slate-200 p-2">
+                            <summary className="cursor-pointer text-xs font-semibold text-slate-700">Documents</summary>
+                            <div className="mt-2 space-y-2">
+                              <input
+                                type="file"
+                                multiple
+                                onChange={(event) => onUploadDocuments(process.id, event)}
+                                className="w-full text-[11px]"
+                              />
+                              <ul className="space-y-1 text-[11px] text-slate-600">
+                                {process.documents.length === 0 ? (
+                                  <li>No docs uploaded</li>
+                                ) : (
+                                  process.documents.map((doc) => <li key={`${process.id}-${doc}`}>• {doc}</li>)
+                                )}
+                              </ul>
+                            </div>
+                          </details>
 
-                          <div className="mt-2 space-y-2 rounded-md border border-slate-200 p-2">
-                            <p className="text-xs font-semibold text-slate-700">Signature</p>
-                            <input
-                              value={process.signature}
-                              onChange={(event) => setSignature(process.id, event.target.value)}
-                              placeholder="Type signature / initials"
-                              className="w-full rounded border border-slate-300 px-2 py-1 text-xs"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => applyCurrentUserSignature(process.id)}
-                              className="w-full rounded-md border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                            >
-                              Sign as {activeUser.name}
-                            </button>
-                          </div>
+                          <details className="mt-2 rounded-md border border-slate-200 p-2" open>
+                            <summary className="cursor-pointer text-xs font-semibold text-slate-700">Signature</summary>
+                            <div className="mt-2 space-y-2">
+                              <input
+                                value={process.signature}
+                                onChange={(event) => setSignature(process.id, event.target.value)}
+                                placeholder="Type signature / initials"
+                                className="w-full rounded border border-slate-300 px-2 py-1 text-xs"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => applyCurrentUserSignature(process.id)}
+                                className="w-full rounded-md border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                              >
+                                Sign as {activeUser.name}
+                              </button>
+                            </div>
+                          </details>
                         </div>
                       );
                     })
