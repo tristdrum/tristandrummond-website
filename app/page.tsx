@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import WheelNav from "./components/WheelNav";
@@ -41,6 +42,12 @@ const HomePage = () => {
           <h1 className="text-3xl font-bold mb-6">
             Welcome to Tristan Drummond's Website
           </h1>
+          <Link
+            href="/jan-demo"
+            className="mb-5 inline-block rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >
+            Open Jan Process Demo
+          </Link>
           <WheelNav segments={lifeDomains} />
         </>
       )}
